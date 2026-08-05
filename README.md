@@ -1,0 +1,1 @@
+# SMC_XAU_Pro_EA
