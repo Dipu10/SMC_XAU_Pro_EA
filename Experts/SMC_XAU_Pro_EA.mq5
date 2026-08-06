@@ -59,15 +59,26 @@ void OnTick()
    //========================
    // BUY
    //========================
-   if(MarketBullish())
+  if(MarketBullish())
+{
+   if(BuyLiquidityConfirmed() &&
+      BullishOBConfirmed() &&
+      BullishFVGConfirmed())
    {
-      if(BuyLiquidityConfirmed()
-      && BullishOBConfirmed()
-      && BullishFVGConfirmed())
+      double stopLossPoints = StopBuffer;
+      double lot = CalculateLot(stopLossPoints);
+
+      double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
+
+      double sl = ask - (StopBuffer * _Point);
+      double tp = ask + (StopBuffer * RiskReward * _Point);
+
+      if(MarginOK(lot))
       {
-         Print("BUY Setup Found");
+         BuyPosition(lot, sl, tp);
       }
    }
+}
 
    //========================
    // SELL
