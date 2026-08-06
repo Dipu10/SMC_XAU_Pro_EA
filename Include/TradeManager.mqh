@@ -115,4 +115,14 @@ void TrailStop()
    }
 }
 
+//====================================================
+// Check Existing Position
+//====================================================
+bool HasOpenPosition()
+{
+   return PositionSelect(_Symbol);
+}
+
 #endif
+
+
