@@ -83,13 +83,24 @@ void OnTick()
    //========================
    // SELL
    //========================
-   if(MarketBearish())
+  if(MarketBearish())
+{
+   if(SellLiquidityConfirmed() &&
+      BearishOBConfirmed() &&
+      BearishFVGConfirmed())
    {
-      if(SellLiquidityConfirmed()
-      && BearishOBConfirmed()
-      && BearishFVGConfirmed())
+      double stopLossPoints = StopBuffer;
+      double lot = CalculateLot(stopLossPoints);
+
+      double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
+
+      double sl = bid + (StopBuffer * _Point);
+      double tp = bid - (StopBuffer * RiskReward * _Point);
+
+      if(MarginOK(lot))
       {
-         Print("SELL Setup Found");
+         SellPosition(lot, sl, tp);
       }
    }
+}
 }
